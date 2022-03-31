@@ -20,9 +20,16 @@ final class MoviesViewController: UIViewController {
     private var movies: [Movie]?
     private let service: MoviesService = MoviesService()
     
+    private lazy var tableView: UITableView = {
+        let tableView = UITableView()
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        return tableView
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupNavigation()
+        setupView()
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -41,7 +48,7 @@ final class MoviesViewController: UIViewController {
         }
     }
     
-    private func searchhMovies(term: String) {
+    private func searchMovies(term: String) {
         service.fetchResults(term) { [weak self] result in
             switch result {
             case .success(let response):
@@ -62,6 +69,25 @@ final class MoviesViewController: UIViewController {
     }
 }
 
+extension MoviesViewController: ViewCode {
+    func buildHierarchy() {
+        view.addSubview(tableView)
+    }
+    
+    func setupConstraints() {
+        NSLayoutConstraint.activate([
+            tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
+    }
+    
+    func applyAdditionalChanges() {
+        setupNavigation()
+    }
+}
+
 // MARK: - Search Bar
 
 extension MoviesViewController: UISearchBarDelegate {
@@ -70,6 +96,6 @@ extension MoviesViewController: UISearchBarDelegate {
             fetchMovies()
             return
         }
-        searchhMovies(term: searchText)
+        searchMovies(term: searchText)
     }
 }
