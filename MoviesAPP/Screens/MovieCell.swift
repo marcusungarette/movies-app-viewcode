@@ -58,11 +58,36 @@ class MovieCell: UITableViewCell {
     
     
     private lazy var stackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [titleLabel, genresLabel])
+        let stackView = UIStackView(arrangedSubviews: [titleLabel, genresLabel, ratingStackView])
         stackView.axis = .vertical
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.spacing = 8
         return stackView
+    }()
+    
+    private lazy var ratingStackView: UIStackView = {
+        let stackView = UIStackView(arrangedSubviews: [starImage, ratingLabel])
+        stackView.axis = .horizontal
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.spacing = 8
+        return stackView
+    }()
+    
+    private lazy var ratingLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .white
+        label.font = UIFont.systemFont(ofSize: 18)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.numberOfLines = 1
+        return label
+    }()
+    
+    private lazy var starImage: UIImageView = {
+        let imageView = UIImageView()
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.image = UIImage(systemName: "star")
+        imageView.tintColor = .yellow
+        return imageView
     }()
     
     @available(*, unavailable)
@@ -73,6 +98,7 @@ class MovieCell: UITableViewCell {
     func setupCell(model: Movie) {
         titleLabel.text = model.name
         genresLabel.text = model.genres?.joined(separator: ", ")
+        ratingLabel.text = model.rating?.average?.toString()
         
         guard let image = model.image?.medium,
               let imageURL = URL(string: image) else { return }
@@ -113,6 +139,9 @@ extension MovieCell: ViewCode {
             blur.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
             blur.trailingAnchor.constraint(equalTo: containerView.trailingAnchor),
             blur.bottomAnchor.constraint(equalTo: containerView.bottomAnchor),
+            
+            starImage.widthAnchor.constraint(equalToConstant: 20),
+            starImage.heightAnchor.constraint(equalToConstant: 20),
             ])
     }
     
