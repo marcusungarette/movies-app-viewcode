@@ -17,7 +17,12 @@ final class MoviesViewController: UIViewController {
         return searchController
     }()
     
-    private var movies: [Movie]?
+    private var movies: [Movie]? {
+        didSet {
+            tableView.reloadData()
+        }
+    }
+    
     private let service: MoviesService = MoviesService()
     
     private lazy var tableView: UITableView = {
