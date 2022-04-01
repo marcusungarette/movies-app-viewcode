@@ -12,11 +12,18 @@ class MovieCell: UITableViewCell {
     
     private lazy var containerView: UIView = {
        let view = UIView()
-        view.backgroundColor = .darkGray
+        view.backgroundColor = .clear
         view.translatesAutoresizingMaskIntoConstraints = false
         view.layer.masksToBounds = true
         view.layer.cornerRadius = 20
         return view
+    }()
+    
+    private lazy var blur: UIVisualEffectView = {
+        let blurEffect = UIBlurEffect(style: .dark)
+        let blurView = UIVisualEffectView(effect: blurEffect)
+        blurView.translatesAutoresizingMaskIntoConstraints = false
+        return blurView
     }()
     
     private lazy var posterView: UIImageView = {
@@ -76,6 +83,7 @@ class MovieCell: UITableViewCell {
 extension MovieCell: ViewCode {
     func buildHierarchy() {
         contentView.addSubview(containerView)
+        containerView.addSubview(blur)
         containerView.addSubview(stackView)
         containerView.addSubview(posterView)
     }
@@ -100,6 +108,11 @@ extension MovieCell: ViewCode {
                                               constant: 16),
             stackView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor,
                                                constant: -16),
+            
+            blur.topAnchor.constraint(equalTo: containerView.topAnchor),
+            blur.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
+            blur.trailingAnchor.constraint(equalTo: containerView.trailingAnchor),
+            blur.bottomAnchor.constraint(equalTo: containerView.bottomAnchor),
             ])
     }
     
