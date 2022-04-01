@@ -30,6 +30,9 @@ final class MoviesViewController: UIViewController {
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.backgroundColor = .clear
         tableView.dataSource = self
+        tableView.rowHeight = 150
+        tableView.estimatedRowHeight = 150
+        tableView.registerCell(type: MovieCell.self)
         return tableView
     }()
     
@@ -82,7 +85,8 @@ extension MoviesViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        return UITableViewCell()
+        let movieCell = tableView.dequeueCell(withType: MovieCell.self, for: indexPath)
+        return movieCell ?? UITableViewCell()
     }
 }
 

@@ -11,7 +11,7 @@ class MovieCell: UITableViewCell {
     
     private lazy var containerView: UIView = {
        let view = UIView()
-        view.backgroundColor = .darkGray
+        view.backgroundColor = .black
         view.translatesAutoresizingMaskIntoConstraints = false
         view.layer.masksToBounds = true
         view.layer.cornerRadius = 20
@@ -47,6 +47,7 @@ extension MovieCell: ViewCode {
     }
     
     func applyAdditionalChanges() {
-        
+        backgroundColor = .clear
+        contentView.backgroundColor = .clear
     }
 }
