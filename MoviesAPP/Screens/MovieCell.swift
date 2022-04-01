@@ -40,11 +40,21 @@ class MovieCell: UITableViewCell {
         return label
     }()
     
+    private lazy var genresLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .lightGray
+        label.font = UIFont.systemFont(ofSize: 12)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.numberOfLines = 1
+        return label
+    }()
+    
     
     private lazy var stackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [titleLabel])
+        let stackView = UIStackView(arrangedSubviews: [titleLabel, genresLabel])
         stackView.axis = .vertical
         stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.spacing = 8
         return stackView
     }()
     
@@ -55,6 +65,7 @@ class MovieCell: UITableViewCell {
     
     func setupCell(model: Movie) {
         titleLabel.text = model.name
+        genresLabel.text = model.genres?.joined(separator: ", ")
         
         guard let image = model.image?.medium,
               let imageURL = URL(string: image) else { return }
