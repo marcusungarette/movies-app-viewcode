@@ -22,6 +22,7 @@ class MovieCell: UITableViewCell {
     private lazy var posterView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.contentMode = .scaleAspectFill
         return imageView
     }()
 
@@ -60,7 +61,7 @@ extension MovieCell: ViewCode {
             
             posterView.topAnchor.constraint(equalTo: containerView.topAnchor),
             posterView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
-            posterView.widthAnchor.constraint(equalToConstant: 150),
+            posterView.widthAnchor.constraint(equalToConstant: 100),
             posterView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor)
         ])
     }
