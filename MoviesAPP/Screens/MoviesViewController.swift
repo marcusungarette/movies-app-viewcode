@@ -96,7 +96,7 @@ extension MoviesViewController: UITableViewDataSource {
         as? MovieCell
         
         if let model = movies?[indexPath.row]{
-            movieCell?.configure(model: model)
+            movieCell?.setupCell(model: model)
         }
         return movieCell ?? UITableViewCell()
     }

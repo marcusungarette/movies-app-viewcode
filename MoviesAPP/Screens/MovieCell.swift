@@ -31,12 +31,31 @@ class MovieCell: UITableViewCell {
         setupView()
     }
     
+    private lazy var titleLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .white
+        label.font = UIFont.systemFont(ofSize: 20)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.numberOfLines = 2
+        return label
+    }()
+    
+    
+    private lazy var stackView: UIStackView = {
+        let stackView = UIStackView(arrangedSubviews: [titleLabel])
+        stackView.axis = .vertical
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        return stackView
+    }()
+    
     @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configure(model: Movie) {
+    func setupCell(model: Movie) {
+        titleLabel.text = model.name
+        
         guard let image = model.image?.medium,
               let imageURL = URL(string: image) else { return }
         posterView.kf.setImage(with: imageURL)
@@ -46,6 +65,7 @@ class MovieCell: UITableViewCell {
 extension MovieCell: ViewCode {
     func buildHierarchy() {
         contentView.addSubview(containerView)
+        containerView.addSubview(stackView)
         containerView.addSubview(posterView)
     }
     
@@ -62,8 +82,14 @@ extension MovieCell: ViewCode {
             posterView.topAnchor.constraint(equalTo: containerView.topAnchor),
             posterView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
             posterView.widthAnchor.constraint(equalToConstant: 100),
-            posterView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor)
-        ])
+            posterView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor),
+            
+            stackView.centerYAnchor.constraint(equalTo: containerView.centerYAnchor),
+            stackView.leadingAnchor.constraint(equalTo: posterView.trailingAnchor,
+                                              constant: 16),
+            stackView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor,
+                                               constant: -16),
+            ])
     }
     
     func applyAdditionalChanges() {
