@@ -9,6 +9,13 @@ import UIKit
 
 final class MoviesViewController: UIViewController {
     
+    private lazy var imageView: UIImageView = {
+        let image = UIImageView()
+        image.translatesAutoresizingMaskIntoConstraints = false
+        image.image = UIImage(named: "background")
+        return image
+    }()
+    
     private lazy var searchController: UISearchController = {
         let searchController = UISearchController(searchResultsController: nil)
         searchController.searchBar.tintColor = .white
@@ -86,13 +93,20 @@ extension MoviesViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let movieCell = tableView.dequeueCell(withType: MovieCell.self, for: indexPath)
+        as? MovieCell
+        
+        if let model = movies?[indexPath.row]{
+            movieCell?.configure(model: model)
+        }
         return movieCell ?? UITableViewCell()
     }
 }
 
 extension MoviesViewController: ViewCode {
     func buildHierarchy() {
+        view.addSubview(imageView)
         view.addSubview(tableView)
+       
     }
     
     func setupConstraints() {
@@ -100,7 +114,12 @@ extension MoviesViewController: ViewCode {
             tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            
+            imageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            imageView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            imageView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            imageView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
     
